@@ -12,7 +12,7 @@ import warnings
 
 import seaborn as sns
 
-from seaborn.external.six import string_types
+from six import string_types
 from seaborn.external.six.moves import range
 
 from seaborn import utils

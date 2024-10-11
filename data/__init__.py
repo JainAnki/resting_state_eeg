@@ -14,15 +14,17 @@ def raws(verbose=False):
 
     for f in datafiles:
 
-        montage = mne.channels.read_montage('biosemi64')
+        montage = mne.channels.make_standard_montage('biosemi64')
         eog_names = ['EXG' + str(n) for n in range(1, 5)]
         emg_names = ['EXG' + str(n) for n in range(5, 9)]
         
-        raw = mne.io.read_raw_edf(str(f), montage=montage, eog=eog_names,
+        raw = mne.io.read_raw_bdf(str(f), eog=eog_names,
                                   misc=emg_names +['Status'], verbose='ERROR')
                                   #verbose='ERROR')
                                   #misc=emg_names, +['Status'], verbose='ERROR')
-        
+        # Set the montage separately
+        raw.set_montage(montage)
+
         raw.info['subject_info'] = {'pid': f.name[7:11],
                                     'group': f.name[3:6]}
         if verbose:
